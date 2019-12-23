@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import Navbar from '../layout/Navbar';
 import Footer from '../layout/Footer';
+import {connect} from "react-redux";
+import {getUsers} from '../../actions/user_action';
+import Modal from '../../modal';
 
-class Home extends Component {
+class User extends Component {
     state = {  }
 
     componentDidMount(){
@@ -17,7 +20,7 @@ class Home extends Component {
     render() {
         return ( <React.Fragment>
             
-        <Navbar logoutUser={this.props.logoutUser}  {...this.props} />
+        <Navbar />
         <table className="table table-bordered">
 
             <thead>
@@ -58,8 +61,13 @@ class Home extends Component {
           
         </div>
       </div>
+      <Modal />
         <Footer/></React.Fragment> );
     }
 }
  
-export default Home;
+const mapStateToProps = (state) => ({
+  users: state.users
+})
+
+export default connect(mapStateToProps, {getUsers})(User);

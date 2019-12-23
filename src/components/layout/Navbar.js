@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
-
+import {connect} from "react-redux";
+import {logoutUser} from '../../actions/auth_action';
 
 
 
 class Navbar extends Component {
   logout = e => {
     e.preventDefault();
+    console.log(this.props);
     this.props.logoutUser(this.props.history);
   };
   
@@ -41,7 +43,7 @@ class Navbar extends Component {
                   </a>
                 </li>
            
-                <li className="nav-item active">
+                {/* <li className="nav-item active">
                   <Link className="nav-link" to="/login">
                     Login <span className="sr-only">(current)</span>
                   </Link>
@@ -50,7 +52,7 @@ class Navbar extends Component {
                   <Link className="nav-link" to="/register">
                     Register
                   </Link>
-                </li>
+                </li> */}
               </React.Fragment>
            
           </ul>
@@ -60,4 +62,7 @@ class Navbar extends Component {
   }
 }
 
-export default Navbar;
+const mapStateToProps = (state) => ({
+})
+
+export default connect(mapStateToProps, {logoutUser})(withRouter(Navbar));

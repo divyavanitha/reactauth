@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import {connect} from "react-redux";
+import {loginUser} from '../../actions/auth_action';
 
 class Login extends Component {
   state = {
@@ -9,10 +11,13 @@ class Login extends Component {
   };
 
   static getDerivedStateFromProps(props) {
+  try{
     if (props.auth.isAuthenticated) {
       props.history.push("/home");
     }
-
+  }catch(e){
+    console.log(e);
+  }
     return null;
   }
 
@@ -28,7 +33,7 @@ class Login extends Component {
       password: this.state.password
     };
    
-    this.props.loginUser(newUser);
+    this.props.loginUser(newUser, this.props.history);
   };
 
   render() {
@@ -51,4 +56,8 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapStateToProps = (state) => ({
+    auth: state.auth
+})
+
+export default connect(mapStateToProps, {loginUser})(Login);

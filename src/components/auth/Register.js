@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link, axios } from 'react-router-dom';
-
+import {connect} from "react-redux";
+import {registerUser} from '../../actions/auth_action';
 
 class Register extends Component {
     state = {
@@ -81,4 +82,7 @@ class Register extends Component {
     }
 }
  
-export default Register;
+const mapStateToProps = (state) => ({
+  auth: state.auth
+})
+export default connect(mapStateToProps, {registerUser})(Register);

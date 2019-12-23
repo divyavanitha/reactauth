@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import axios from 'axios';
 import Register from './components/auth/Register';
 import Home from './components/layout/Home';
@@ -18,58 +18,61 @@ class App extends Component {
     },
     users: []
    }
-  registerUser = async (data) => {
-    let register = await axios.post('http://localhost:5000/api/auth/register', data);
-    const token = register.data.token;
-    localStorage.setItem('token', token);
-    setAuthToken(token);
-    this.setState({auth: 
-      {
-        isAuthenticated: true
+  // registerUser = async (data) => {
+  //   let register = await axios.post('http://localhost:5000/api/auth/register', data);
+  //   const token = register.data.token;
+  //   localStorage.setItem('token', token);
+  //   setAuthToken(token);
+  //   this.setState({auth: 
+  //     {
+  //       isAuthenticated: true
         
-      }
-    });
-    console.log(register);
-  }
+  //     }
+  //   });
+  //   console.log(register);
+  // }
 
-  loginUser = async (data) => {
-    let login = await axios.post('http://localhost:5000/api/auth/login', data);
-    const token = login.data.token;
-    localStorage.setItem('token', token);
-    setAuthToken(token);
-    this.setState({auth: 
-      {
-        isAuthenticated: true
-      }
-    });
+  // loginUser = async (data) => {
+  //   let login = await axios.post('http://localhost:5000/api/auth/login', data);
+  //   const token = login.data.token;
+  //   localStorage.setItem('token', token);
+  //   setAuthToken(token);
+  //   this.setState({auth: 
+  //     {
+  //       isAuthenticated: true
+  //     }
+  //   });
 
-    console.log(login);
-  }
+  //   console.log(login);
+  // }
 
-  logoutUser = (history) => {
-    localStorage.removeItem('token');
-    setAuthToken(false);
-    this.setState({auth: 
-      {
-        isAuthenticated: false
-      }
-    });
-    history.push("/login");
-  }
+  // logoutUser = (history) => {
+  //   localStorage.removeItem('token');
+  //   setAuthToken(false);
+  //   this.setState({auth: 
+  //     {
+  //       isAuthenticated: false
+  //     }
+  //   });
+  //   history.push("/login");
+  // }
 
-  getUsers = async () => {
-    let users = await axios.get('http://localhost:5000/api/users');
-    this.setState({
-      users: users.data
-    });
-  }
+  // getUsers = async () => {
+  //   let users = await axios.get('http://localhost:5000/api/users');
+  //   this.setState({
+  //     users: users.data
+  //   });
+  // }
   render() {
   return (
     <React.Fragment>
-    <Route path='/register' render={props => <Register registerUser={this.registerUser} {...props} auth={this.state.auth}  />} />
-    <Route path='/login' render={props => <Login loginUser={this.loginUser} {...props} auth={this.state.auth}  />} />
-    <ProtectedRoute path='/users' auth={this.state.auth} render={props => <User logoutUser={this.logoutUser} getUsers={this.getUsers} users={this.state.users} {...props}  /> } />
-    <ProtectedRoute path='/home' auth={this.state.auth} render={props => <Home logoutUser={this.logoutUser} {...props} /> } />
+    <Switch>
+    <Route exact path='/' component= {Login} />
+    <Route path='/register' component= {Register} />
+    <Route path='/login' component={Login} />
+    <ProtectedRoute path='/users'  component={User} />
+    <ProtectedRoute path='/home'  component={Home} />
+    </Switch>
     </React.Fragment>
   );
 }
