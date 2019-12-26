@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Footer extends Component {
-    state = {  }
-    render() {
+const Footer = () => {
+    
+   
         return ( <h1>Footer</h1> );
-    }
+   
 }
  
 export default Footer;

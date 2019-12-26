@@ -6,7 +6,7 @@ import {SET_CURRENT_USER} from './types';
 
 export const loginUser = (data, history) => async dispatch => {
   try{
-    let login = await axios.post('http://localhost:5000/api/auth/login', data);
+    let login = await axios.post('/api/auth/login', data);
     const token = login.data.token;
     localStorage.setItem('token', token);
     setAuthToken(token);
@@ -29,7 +29,7 @@ export const loginUser = (data, history) => async dispatch => {
 
   export const registerUser = (data) => async dispatch => {
     try{
-    let register = await axios.post('http://localhost:5000/api/auth/register', data);
+    let register = await axios.post('/api/auth/register', data);
     const token = register.data.token;
     localStorage.setItem('token', token);
     setAuthToken(token);

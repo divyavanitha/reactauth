@@ -5,7 +5,7 @@ import {GET_USERS, DELETE_USER} from './types';
 
 export const getUsers = () => async dispatch => {
     try{
-    let users = await axios.get('http://localhost:5000/api/users');
+    let users = await axios.get('/api/users');
     // this.setState({
     //   users: users.data
     // });
@@ -21,7 +21,7 @@ export const getUsers = () => async dispatch => {
 
   export const deleteUsers = (id) => async dispatch => {
     try{
-    let users = await axios.delete('http://localhost:5000/api/users/'+id);
+    let users = await axios.delete('/api/users/'+id);
     // this.setState({
     //   users: users.data
     // });

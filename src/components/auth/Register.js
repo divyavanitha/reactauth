@@ -1,75 +1,103 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, axios } from 'react-router-dom';
 import {connect} from "react-redux";
 import {registerUser} from '../../actions/auth_action';
 
-class Register extends Component {
-    state = {
-        name: "Demo",
-        email: "demo@demo.com",
-        password: "123456",
-        confirm_password: "123456",
-        errors: {}
-      };
+const Register = (props) => {
+    // state = {
+    //     name: "Demo",
+    //     email: "demo@demo.com",
+    //     password: "123456",
+    //     confirm_password: "123456",
+    //     errors: {}
+    //   };
 
-    onChange = ({target:input}) => {
-        this.setState({[input.name]:input.value});   
+    const [state, setState] = useState({
+          name: "Demo",
+          email: "demo@demo.com",
+          password: "123456",
+          confirm_password: "123456",
+          errors: {}
+        });
+
+   const onChange = ({target:input}) => {
+        setState({
+          ...state,
+          [input.name]:input.value
+        
+        });   
     }
 
-    static getDerivedStateFromProps(props) {
-      console.log(props);
-      if(props.auth.isAuthenticated){
-        props.history.push('/home');
+    // static getDerivedStateFromProps(props) {
+    //   console.log(props);
+    //   if(props.auth.isAuthenticated){
+    //     props.history.push('/home');
+    //   }
+    //   return null;
+    // }
+
+    useEffect(() => {
+      try{
+        if (props.auth.isAuthenticated) {
+          props.history.push("/home");
+        }
+        if(props.errors) {
+          setState({errors: props.errors})
+          //return { errors: props.errors }
+        }
+      }catch(e){
+        console.log(e);
       }
-      return null;
-    }
+    });
 
-    onSubmit = async (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
         const newUser = {
-        name: this.state.name,
-        email: this.state.email,
-        password: this.state.password,
-        confirm_password: this.state.confirm_password
+        name: state.name,
+        email: state.email,
+        password: state.password,
+        confirm_password: state.confirm_password
       };
 
-      this.props.registerUser(newUser);
+      props.registerUser(newUser);
     }
-    render() {
-        const {errors} = this.state; 
+    
+      console.log(state);
+        const {errors} = state; 
+        
         return ( <div className="login-page">
         <div className="form">
-          <form className="register-form" onSubmit = {this.onSubmit}>
+          <form className="register-form" onSubmit = {onSubmit}>
             <input
               type="text"
               name="name"
               placeholder="Name"
-              value={this.state.name}
-              onChange = {this.onChange}
+              value={state.name}
+              onChange = {onChange}
             />
             <div>{errors.name}</div>
             <input
               type="text"
               name="email"
               placeholder="Email address"
-              value={this.state.email}
-              onChange = {this.onChange}
+              value={state.email}
+              onChange = {onChange}
             />
             <div>{errors.email}</div>
             <input
               type="password"
               name="password"
               placeholder="Password"
-              value={this.state.password}
-              onChange = {this.onChange}
+              value={state.password}
+              onChange = {onChange}
             />
             <div>{errors.password}</div>
             <input
               type="password"
               name="confirm_password"
               placeholder="Confirm Password"
-              value={this.state.password}
-              onChange = {this.onChange}
+              value={state.password}
+              onChange = {onChange}
             />
             <div>{errors.confirm_password}</div>
             <button type="submit">Submit</button>
@@ -80,7 +108,7 @@ class Register extends Component {
         </div>
       </div> );
     }
-}
+
  
 const mapStateToProps = (state) => ({
   auth: state.auth

@@ -5,21 +5,17 @@ const modalRoot = document.getElementById('modal-root');
 
 class Modal extends Component {
     
-    state = {
-     show: this.props ? true : false   
-    };
-
     close = () => {
 
-        this.setState({show:false});
+        this.props.close();
 
     }
     renderModal(){
 
-        let show = {display:"block"};
+        
         return(
             <Fragment>
-            <div className="modal" id="myModal" style={this.state.show ? show : {display:"none"}}>
+            <div className="modal" id="myModal" style={{display:"block"}}>
                         <div className="modal-dialog">
                           <div className="modal-content">
                       
@@ -41,7 +37,7 @@ class Modal extends Component {
                       </div>
                       
                      
-        {this.state.show && <div className="modal-backdrop fade show"></div> }
+        <div className="modal-backdrop fade show"></div>
         </Fragment>
         )
     }
